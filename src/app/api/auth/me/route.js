@@ -7,7 +7,10 @@ export async function GET() {
   try {
     await dbConnect();
 
-    const token = cookies().get("authToken")?.value;
+    // ✅ Await the cookies() function before using it
+    const cookieStore = await cookies();
+    const token = cookieStore.get("authToken")?.value;
+
     if (!token) {
       return Response.json({ error: "Not authenticated" }, { status: 401 });
     }
