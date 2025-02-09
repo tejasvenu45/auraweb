@@ -79,7 +79,7 @@ const Navbar = () => {
                     <Link href="/Epoch">Epoch</Link>
                   </li>
                   <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                    <Link href="/Chat">Chat</Link>
+                    <Link href="/chat">Chat</Link>
                   </li>
                   <li>
                     <button
