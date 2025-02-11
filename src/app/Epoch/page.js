@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import withAuth from "@/hoc/withAuth";
 
-export default function RegisterPage() {
+function RegisterPage() {
     const [formData, setFormData] = useState({
         teamName: "",
         problemStatement: "",
@@ -112,3 +113,6 @@ export default function RegisterPage() {
         </div>
     );
 }
+
+export default withAuth(RegisterPage);
+// export default RegisterPage;
