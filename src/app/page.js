@@ -11,6 +11,10 @@ const image1 = "/11.jpg";
 const image2 = "/10.jpg";
 const image3 = "/6.jpg";
 
+const abtImg1 = "/student.svg"
+const abtImg2 = "/aiml01.svg"
+const abtImg3 = "/collaboration.svg"
+
 const Logs = "/about/Logistics.png";
 const Ops = "/about/Operations.png";
 const SandO = "/about/Social_and_Outreach.png";
@@ -66,9 +70,9 @@ function Hero() {
 // AboutDomain component
 function AboutDomain({ title, content, img }) {
   return (
-    <div className="bg-black text-white rounded-lg p-6 border-4 border-white shadow-xl shadow-orange-500 hover:scale-105 hover:text-white">
+    <div className="bg-white text-gray-600 rounded-lg p-6 border-4 border-white shadow-xl shadow-green-500 hover:scale-105 hover:text-black transition ease-in-out">
       <Zoom>
-        <img src={img} alt={title} className="w-48 h-48 mx-auto mb-4 hover:scale-125" />
+        <img src={img} alt={title} className="w-48 h-48 mx-auto mb-4 scale-125" />
         <h2 className="text-3xl font-bold mb-2 text-orange-500 ">{title}</h2>
         <p className="text-xl">{content}</p>
       </Zoom>
@@ -80,46 +84,47 @@ const domains = [
   {
     title: "Technical",
     content:
-      "The Technical Team at Aura is dedicated to fostering a learning atmosphere by conducting hands-on workshops and mentoring participants during hackathons. We aim to share knowledge and build technical skills among our members, encouraging collaboration and innovation. Through our efforts, we ensure that every member is equipped with the expertise needed to excel in the dynamic field of machine learning.",
+      "The Technical Team at Aura conducts workshops and mentors participants in hackathons, fostering collaboration and innovation in machine learning.",
     img: Tech,
   },
   {
     title: "Event Management",
     content:
-      "The Event Management domain of AURA meticulously plans and executes tech events like hackathons, datathons, workshops, and tech talks etc. Pre-event, we handle event planning, vendor coordination, timeline, budget setting, and creative activity planning. On the event day, we manage on-ground operations, hospitality, troubleshoot issues, oversee participant registration, and ensure smooth activity flow. Post-event, we evaluate feedback for continuous improvement, ensuring impactful and memorable experiences.",
+      "The Event Management team plans and executes tech events, handling logistics, hospitality, and post-event evaluations to ensure seamless experiences.",
     img: Ops,
   },
   {
     title: "Social and Outreach",
     content:
-      "The Socials and Outreach domain of AURA is the heart of our club's communication efforts, dedicated to creating engaging and impactful content that connects with the PES University’s community and beyond. Our team is responsible for crafting captivating Instagram captions that inform and inspire, as well as managing the club’s online  campaign communications to ensure timely and effective messaging. We strive to keep our members and followers updated on the latest club activities, achievements, and events, fostering a strong sense of community and belonging.",
+      "The Socials & Outreach team manages communications, creates engaging content, and keeps PES University’s community updated on club activities.",
     img: SandO,
   },
   {
     title: "Sponsorship",
     content:
-      "The Sponsorship domain of the AURA club at PES University plays a pivotal role in ensuring the success of our hackathons and various college events. This dedicated team diligently seeks out and nurtures relationships with companies that can offer substantial support through contributions such as problem statements, the participation of industry experts, and the provision of prizes. By securing these valuable partnerships, the Sponsorship domain guarantees that our events are not only well-funded but also enriched with practical insights and resources. ",
+      "The Sponsorship team secures partnerships, bringing industry experts, problem statements, and funding to enhance Aura’s hackathons and events.",
     img: Sponsor,
   },
   {
     title: "Logs",
     content:
-      "Logistics Domain in Aura is mainly dedicated to full fill all requirements of Club focusing on the field of logistics and supply chain management. Our primary goal is to foster an environment that encourages creative thinking, problem-solving, the exchange of ideas among students and decision making skills in crucial time. We mainly focus on providing all items required for the event we host like workshops, hackathons, and compilations.",
+      "The Logistics team ensures smooth event execution by managing supplies and fostering problem-solving skills in high-pressure situations.",
     img: Logs,
   },
   {
     title: "Videography and Editing",
     content:
-      "The videography team at AURA club is dedicated to capturing the essence of every event with precision and creativity. Their primary responsibility is to meticulously document each moment, ensuring no detail is overlooked, from the candid smiles to the grand highlights. Post-event, they transform these raw clips into a compelling post-movie video that encapsulates the spirit and energy of the occasion. By combining technical expertise with an artistic vision, they produce a polished, engaging film that not only recounts the event but also evokes the emotions and memories associated with it, making it a cherished keepsake for all attendees.",
+      "The Videography team captures and edits event highlights, creating compelling videos that preserve and share Aura’s memorable moments.",
     img: Vid,
   },
   {
     title: "Design",
     content:
-      "Design and Creativity at Aura embodies innovation and aesthetic finesse, crafting visually captivating experiences for our audience. From meticulously designed posters to engaging social media content, we ignite curiosity and excitement through every pixel and brushstroke. Our creations not only reflect the essence of our events but also set the stage for immersive experiences that resonate with our diverse community.",
+      "The Design team crafts visually engaging posters and social media content, enhancing the aesthetic appeal of Aura’s events.",
     img: Design,
   },
 ];
+
 // Main page component
 export default function Page() {
   return (
@@ -127,50 +132,56 @@ export default function Page() {
       <div className="flex flex-col w-full">
         <Hero />
         <section className="flex flex-col lg:flex-row-reverse w-full justify-between">
-          <section className="flex flex-col items-start">
-            <div className="flex flex-row justify-center gap-2 bg-black text-green-700 w-full pt-5 shadow-xl shadow-green-700">
-              <h1 className="p-5 font-bold bg-black text-orange-500 w-full text-5xl border-2 border-purple-700 mt-2 text-center">
+          <section className="flex flex-col items-center bg-black text-white py-10">
+            <div className="flex justify-center w-full bg-black  pt-5 shadow-xl shadow-green-500">
+              <h1 className="p-5 font-bold text-white text-8xl mt-2 text-center w-full">
                 <Slide>About Us</Slide>
               </h1>
             </div>
-            <div className="text-xl sm:w-full py-6 flex flex-col sm:text-3xl bg-black text-white">
-              <div className="flex flex-col border-2 border-purple-700 shadow-xl mt-2 p-12">
+
+            <div className="text-xl sm:w-full py-6 flex flex-col sm:text-3xl bg-black">
+              <div className="flex flex-col  shadow-xl mt-2 p-12">
                 <Slide>
-                  <p className="p-2">
-                    Welcome to the CSE(AI&ML) Club, a dynamic community dedicated to
-                    exploring and advancing knowledge in Artificial Intelligence (AI) and
-                    Machine Learning (ML). Our focus is on cutting-edge technologies and
-                    practical applications.
-                  </p>
-                  <p className="p-2">
-                    1. <b className="text-orange-500">Advancing AI and ML Knowledge:</b> Our club
-                    serves as a central hub for enthusiasts and experts alike to deepen
-                    their understanding of AI and various facets of ML, fostering a
-                    collaborative environment for exploration.
-                  </p>
-                  <p className="p-2">
-                    2. <b className="text-orange-500">Practical Skill Development:</b> We
-                    prioritize hands-on learning through workshops, projects, and
-                    collaborative initiatives. Members gain practical skills in
-                    implementing ML algorithms, working with datasets, and tackling
-                    real-world problems.
-                  </p>
-                  <p className="p-2">
-                    3. <b className="text-orange-500">Knowledge Sharing and Outreach:</b>{" "}
-                    Integral to our mission is sharing ML knowledge beyond our community.
-                    We actively promote knowledge sharing through seminars, tutorials, and
-                    outreach programs, extending the impact of ML beyond our club members.
-                  </p>
+                  <div className="flex flex-col items-center justify-center w-full">
+                    <p className="pt-4 pb-12  w-3/4 text-center  text-[#329D36] ">
+                      Welcome to the CSE(AI&ML) Club, a community dedicated to exploring Artificial Intelligence and Machine Learning through innovation and hands-on experience.
+                    </p>
+                  </div>
+
+                  {/* Container for images and text */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-12 p-6 mt-6 text-center">
+                    <div className="flex flex-col gap-6 items-center">
+                      <img src={abtImg1} alt="AI & ML Exploration" className="h-48 w-auto rounded-lg  shadow-lg" />
+                      <p className="p-2 mt-4">
+                        <b className="text-[#329D36]">Advancing AI and ML Knowledge:</b> Our club fosters a collaborative space for AI & ML enthusiasts to explore, learn, and grow.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-6 items-center">
+                      <img src={abtImg2} alt="Practical Skill Development" className="h-48 w-auto rounded-lg  shadow-lg" />
+                      <p className="p-2 mt-4">
+                        <b className="text-[#329D36]">Practical Skill Development:</b> We emphasize hands-on learning with workshops, projects, and real-world problem-solving experiences.
+                      </p>
+                    </div>
+
+                    <div className="flex flex-col gap-6 items-center">
+                      <img src={abtImg3} alt="Knowledge Sharing & Outreach" className="h-48 w-auto rounded-lg  shadow-lg" />
+                      <p className="p-2 mt-4">
+                        <b className="text-[#329D36]">Knowledge Sharing and Outreach:</b> We engage in seminars, tutorials, and outreach programs to expand AI & ML knowledge beyond our club.
+                      </p>
+                    </div>
+                  </div>
                 </Slide>
               </div>
             </div>
           </section>
+
         </section>
         <section className="bg-black">
-          <h1 className="bg-black text-white border-4 border-purple-500 p-8 font-bold w-full text-center text-5xl mt-7 shadow-xl shadow-green-700">
+          <h1 className="bg-black text-white border-4 border-green-500 p-8 font-bold w-full text-center text-5xl mt-7 shadow-xl shadow-green-700">
             <Slide>Domains</Slide>
           </h1>
-          <section className="grid grid-cols-1 lg:grid-cols-3 w-full gap-8 mt-20">
+          <section className="grid grid-cols-1 px-6 lg:grid-cols-3 w-full gap-8 mt-20">
             {domains.map((domain, index) => (
               <AboutDomain
                 key={index}

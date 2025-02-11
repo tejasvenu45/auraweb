@@ -1,54 +1,83 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "@/context/AuthContext"; // Assuming this is where your AuthContext is
+import { useAuth } from "@/context/AuthContext"; // Ensure this is correctly set up
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const { setIsAuthenticated } = useAuth(); // Get the auth function to set user authentication state
+  const { setIsAuthenticated } = useAuth();
   const router = useRouter();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Make POST request to the backend for signIn
+
     const res = await fetch("/api/auth/signIn", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json", // Ensure proper content type
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
-    // Check for successful login and set authentication state
     if (res.ok) {
-      setIsAuthenticated(true); // Update context to reflect the user is authenticated
-      router.push("/"); // Redirect to home page
+      setIsAuthenticated(true);
+      router.push("/");
     } else {
-      // Handle error - maybe show a message to the user
       alert("Invalid credentials");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <input
-          type="email"
-          placeholder="Email"
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-          required
-        />
-      </div>
-      <div>
-        <input
-          type="password"
-          placeholder="Password"
-          onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-          required
-        />
-      </div>
-      <button type="submit">Login</button>
-    </form>
+    <div className="flex items-center justify-center min-h-screen bg-black">
+      <form
+        onSubmit={handleSubmit}
+        className="w-11/12 sm:w-3/4 md:w-1/2 lg:w-1/3 bg-black text-white border-4 border-green-500 rounded-2xl shadow-xl shadow-green-500 p-10"
+      >
+        <h2 className="text-3xl font-bold text-green-400 text-center">LOGIN</h2>
+
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-white text-center text-2xl">
+            Email
+          </label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="w-full bg-black px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="password" className="block text-white text-center text-2xl">
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="w-full bg-black px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-green-500 text-3xl font-extrabold text-white py-2 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600"
+        >
+          Login
+        </button>
+      </form>
+    </div>
   );
 }

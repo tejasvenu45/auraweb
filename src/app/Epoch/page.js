@@ -51,7 +51,7 @@ export default function RegisterPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-black">
+        <div className="min-h-screen flex items-center justify-center bg-black text-black">
             <div className="bg-green-700 p-6 rounded-lg shadow-lg w-full max-w-2xl">
                 <h2 className="text-2xl font-bold mb-4">Register Team</h2>
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -71,7 +71,7 @@ export default function RegisterPage() {
                         value={formData.docLink} onChange={handleChange}
                         className="w-full p-2 border rounded-md" />
 
-                    <h3 className="font-semibold mt-4">Team Members</h3>
+                    <h3 className="font-semibold text-orange-500 mt-4">Team Members</h3>
                     {formData.teamDetails.map((member, index) => (
                         <div key={index} className="space-y-2 border p-2 rounded-md">
                             <input type="text" placeholder="Name" required value={member.name}
