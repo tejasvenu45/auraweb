@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Plus, UserPlus, Send } from "lucide-react";
 import DashboardPage from "@/components/DashboardPage";
 import Footer from "@/components/Footer";
+import withAuth from "@/hoc/withAuth";
 const img1 = "/epoch.jpg"
 
 function RegisterPage() {
@@ -208,4 +209,4 @@ function RegisterPage() {
     );
 }
 
-export default RegisterPage;
+export default withAuth(RegisterPage);

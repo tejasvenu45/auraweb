@@ -10,8 +10,9 @@ const Chat = () => {
   const [question, setQuestion] = useState("");
   const [faqData, setFaqData] = useState([]);
   const [answer, setAnswer] = useState("");
+  const allowedEmails = process.env.ALLOWED_EMAILS?.split(",") || [];
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const router = useRouter();
 
   const handleSubmit = async (evt) => {
@@ -93,7 +94,8 @@ const Chat = () => {
                   ) : (
                     <div>{item.answer}</div> 
                   )}
-                  <form onSubmit={(e) => handleAnswer(e, item._id)} className="mt-4">
+                  {allowedEmails.includes(user?.email) && (
+                    <form onSubmit={(e) => handleAnswer(e, item._id)} className="mt-4">
                     <textarea
                       className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-700"
                       rows="4"
@@ -108,6 +110,7 @@ const Chat = () => {
                       Answer
                     </button>
                   </form>
+                  )}
                 </div>
               )}
             </div>

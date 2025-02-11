@@ -1,8 +1,9 @@
 "use client"; // Required in Next.js App Router for client-side data fetching
 
 import { useEffect, useState } from "react";
+import isAdmin from "@/hoc/isAdmin";
 
-export default function DetailsPage() {
+function DetailsPage() {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -62,3 +63,5 @@ export default function DetailsPage() {
         </div>
     );
 }
+
+export default isAdmin(DetailsPage)
