@@ -1,7 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import withAuth from "@/hoc/withAuth";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Plus, UserPlus, Send } from "lucide-react";
+import DashboardPage from "@/components/DashboardPage";
+import Footer from "@/components/Footer";
+const img1 = "/epoch.jpg"
 
 function RegisterPage() {
     const [formData, setFormData] = useState({
@@ -23,96 +30,182 @@ function RegisterPage() {
     };
 
     const handleAddMember = () => {
+        if (formData.teamDetails.length >= 4) {
+            alert("Maximum team size is 4 members!");
+            return;
+        }
+
         setFormData({
             ...formData,
-            teamDetails: [...formData.teamDetails, { name: "", email: "", srn: "", hostellite: false, parentsPhNo: "" }]
+            teamDetails: [
+                ...formData.teamDetails,
+                { name: "", email: "", srn: "", hostellite: false, parentsPhNo: "" }
+            ]
         });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("/api/register", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(formData),
-        });
-
-        if (response.ok) {
-            alert("Registration successful!");
-            setFormData({
-                teamName: "",
-                problemStatement: "",
-                systemArchiture: "",
-                docLink: "",
-                teamDetails: [{ name: "", email: "", srn: "", hostellite: false, parentsPhNo: "" }]
+        try {
+            const response = await fetch("/api/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
             });
-        } else {
-            alert("Registration failed!");
+
+            if (response.ok) {
+                alert("Registration successful!");
+                setFormData({
+                    teamName: "",
+                    problemStatement: "",
+                    systemArchiture: "",
+                    docLink: "",
+                    teamDetails: [{ name: "", email: "", srn: "", hostellite: false, parentsPhNo: "" }]
+                });
+            } else {
+                alert("Registration failed!");
+            }
+        } catch (error) {
+            alert("An error occurred during registration.");
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-black text-black">
-            <div className="bg-green-700 p-6 rounded-lg shadow-lg w-full max-w-2xl">
-                <h2 className="text-2xl font-bold mb-4">Register Team</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <input type="text" name="teamName" placeholder="Team Name" required
-                        value={formData.teamName} onChange={handleChange}
-                        className="w-full p-2 border rounded-md" />
+        <div className="min-h-screen bg-[#201723] text-white py-8 px-4">
+            <DashboardPage />
 
-                    <input type="text" name="problemStatement" placeholder="Problem Statement" required
-                        value={formData.problemStatement} onChange={handleChange}
-                        className="w-full p-2 border rounded-md" />
+            <div className="max-w-4xl mx-auto">
+                <Card className="bg-white/5 border-[#329D36]/20">
+                    <CardHeader>
+                        <CardTitle className="text-3xl font-bold text-center text-[#329D36]">
+                            Team Registration
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="space-y-4">
+                                <Input
+                                    type="text"
+                                    name="teamName"
+                                    placeholder="Team Name"
+                                    required
+                                    value={formData.teamName}
+                                    onChange={handleChange}
+                                    className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                />
+                                <Input
+                                    type="text"
+                                    name="problemStatement"
+                                    placeholder="Problem Statement"
+                                    required
+                                    value={formData.problemStatement}
+                                    onChange={handleChange}
+                                    className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                />
+                                <Input
+                                    type="text"
+                                    name="systemArchiture"
+                                    placeholder="System Architecture"
+                                    required
+                                    value={formData.systemArchiture}
+                                    onChange={handleChange}
+                                    className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                />
+                                <Input
+                                    type="text"
+                                    name="docLink"
+                                    placeholder="Documentation Link"
+                                    required
+                                    value={formData.docLink}
+                                    onChange={handleChange}
+                                    className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                />
+                            </div>
 
-                    <input type="text" name="systemArchiture" placeholder="System Architecture" required
-                        value={formData.systemArchiture} onChange={handleChange}
-                        className="w-full p-2 border rounded-md" />
+                            <div className="mt-8">
+                                <h3 className="text-xl font-semibold text-[#329D36] mb-4 flex items-center gap-2">
+                                    <UserPlus size={24} />
+                                    Team Members
+                                </h3>
+                                <div className="space-y-4">
+                                    {formData.teamDetails.map((member, index) => (
+                                        <Card key={index} className="bg-black/30 border-[#329D36]/20">
+                                            <CardContent className="pt-6">
+                                                <div className="grid gap-4">
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="Name"
+                                                        required
+                                                        value={member.name}
+                                                        onChange={(e) => handleChange(e, index, "name")}
+                                                        className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                                    />
+                                                    <Input
+                                                        type="email"
+                                                        placeholder="Email"
+                                                        required
+                                                        value={member.email}
+                                                        onChange={(e) => handleChange(e, index, "email")}
+                                                        className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                                    />
+                                                    <Input
+                                                        type="text"
+                                                        placeholder="SRN"
+                                                        required
+                                                        value={member.srn}
+                                                        onChange={(e) => handleChange(e, index, "srn")}
+                                                        className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                                    />
+                                                    <Input
+                                                        type="tel"
+                                                        placeholder="Parent's Phone Number"
+                                                        required
+                                                        value={member.parentsPhNo}
+                                                        onChange={(e) => handleChange(e, index, "parentsPhNo")}
+                                                        className="bg-black/50 border-[#329D36]/30 focus:border-[#329D36] focus:ring-1 focus:ring-[#329D36] text-white transition-colors"
+                                                    />
+                                                    <div className="flex items-center space-x-2">
+                                                        <Checkbox
+                                                            checked={member.hostellite}
+                                                            onCheckedChange={(checked) =>
+                                                                handleChange({ target: { value: checked } }, index, "hostellite")
+                                                            }
+                                                            className="border-[#329D36] data-[state=checked]:bg-[#329D36]"
+                                                        />
+                                                        <label className="text-sm text-gray-200">Hostellite</label>
+                                                    </div>
+                                                </div>
+                                            </CardContent>
+                                        </Card>
+                                    ))}
+                                </div>
+                            </div>
 
-                    <input type="text" name="docLink" placeholder="Documentation Link" required
-                        value={formData.docLink} onChange={handleChange}
-                        className="w-full p-2 border rounded-md" />
-
-                    <h3 className="font-semibold text-orange-500 mt-4">Team Members</h3>
-                    {formData.teamDetails.map((member, index) => (
-                        <div key={index} className="space-y-2 border p-2 rounded-md">
-                            <input type="text" placeholder="Name" required value={member.name}
-                                onChange={(e) => handleChange(e, index, "name")}
-                                className="w-full p-2 border rounded-md" />
-
-                            <input type="email" placeholder="Email" required value={member.email}
-                                onChange={(e) => handleChange(e, index, "email")}
-                                className="w-full p-2 border rounded-md" />
-
-                            <input type="text" placeholder="SRN" required value={member.srn}
-                                onChange={(e) => handleChange(e, index, "srn")}
-                                className="w-full p-2 border rounded-md" />
-
-                            <input type="number" placeholder="Parent's Phone No" required value={member.parentsPhNo}
-                                onChange={(e) => handleChange(e, index, "parentsPhNo")}
-                                className="w-full p-2 border rounded-md" />
-
-                            <label className="flex items-center space-x-2">
-                                <input type="checkbox" checked={member.hostellite}
-                                    onChange={(e) => handleChange({ target: { value: e.target.checked } }, index, "hostellite")}
-                                    className="form-checkbox" />
-                                <span>Hostellite</span>
-                            </label>
-                        </div>
-                    ))}
-
-                    <button type="button" onClick={handleAddMember}
-                        className="w-full p-2 bg-blue-500 text-white rounded-md">
-                        Add Member
-                    </button>
-
-                    <button type="submit" className="w-full p-2 bg-green-500 text-white rounded-md">
-                        Register
-                    </button>
-                </form>
+                            <div className="flex flex-col gap-4 mt-6">
+                                <Button
+                                    type="button"
+                                    onClick={handleAddMember}
+                                    disabled={formData.teamDetails.length >= 4}
+                                    className="bg-[#329D36] text-white hover:bg-[#329D36]/80 active:bg-[#329D36]/90 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                >
+                                    <Plus className="w-4 h-4 mr-2" />
+                                    Add Team Member
+                                </Button>
+                                <Button
+                                    type="submit"
+                                    className="bg-[#329D36] text-white hover:bg-[#329D36]/80 active:bg-[#329D36]/90 transition-colors"
+                                >
+                                    <Send className="w-4 h-4 mr-2" />
+                                    Submit Registration
+                                </Button>
+                            </div>
+                        </form>
+                    </CardContent>
+                </Card>
             </div>
+            <Footer />
         </div>
     );
 }
 
-export default withAuth(RegisterPage);
-// export default RegisterPage;
+export default RegisterPage;
