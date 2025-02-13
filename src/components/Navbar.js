@@ -93,7 +93,7 @@ const Navbar = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden sm:flex items-center space-x-8">
+          <div className="hidden text-xl text-bold sm:flex items-center space-x-8">
             <Link
               href="/"
               className="text-white hover:text-[#329D36] transition-colors duration-300"

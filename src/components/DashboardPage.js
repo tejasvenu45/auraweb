@@ -32,7 +32,7 @@ const DashboardPage = () => {
                         <div className="flex flex-wrap items-center justify-center gap-6 text-[#329D36]">
                             <div className="flex items-center gap-2">
                                 <Clock className="w-6 h-6" />
-                                <span className="font-semibold">10 Hours</span>
+                                <span className="font-semibold">24 Hours</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Database className="w-6 h-6" />
@@ -49,20 +49,24 @@ const DashboardPage = () => {
                                 <p className="text-xl text-gray-300 leading-relaxed">
                                     🚀 <span className="text-[#329D36] font-semibold">Exciting News!</span> 🚀
                                     <br />
-                                    Calling all data enthusiasts! AURA, the epicenter of innovation
-                                    in the CSE-AIML verticle, is thrilled to announce our first-ever event:
-                                    a 10-hour datathon right on campus! Get ready to dive deep into the world
-                                    of data and AI.
+                                    Calling all data enthusiasts! AURA, the epicentre of innovation in the CSE-AIML vertical, is thrilled to announce EPOCH 2.0 : a 24-hour datathon right on campus! Get ready to dive deep into the world of data and AI.
                                 </p>
                             </CardContent>
                         </Card>
 
-                        <Button
-                            className="bg-[#329D36] text-white hover:bg-[#329D36]/80 active:bg-[#329D36]/90 transition-colors mt-4 text-lg px-8 py-6"
+                        <a
+                            href="https://docs.google.com/forms/d/10EbZctSmC4gNsapcWtvdFJvnagUR20WIPCGCAMsAnp0/edit"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-block"
                         >
-                            Register Now
-                            <ArrowRight className="ml-2 w-5 h-5" />
-                        </Button>
+                            <Button className="bg-[#329D36] text-white hover:bg-[#329D36]/80 active:bg-[#329D36]/90 transition-colors mt-4 text-lg px-8 py-6">
+                                Register Now
+                                <ArrowRight className="ml-2 w-5 h-5" />
+                            </Button>
+                        </a>
+
+
                     </div>
                 </div>
 
