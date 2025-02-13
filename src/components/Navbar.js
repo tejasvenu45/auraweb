@@ -1,24 +1,33 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Slide } from "react-awesome-reveal";
-import { useAuth } from "../context/AuthContext"; 
+import { Menu, X } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 const Navbar = () => {
-  const { isAuthenticated, setIsAuthenticated } = useAuth(); 
+  const { isAuthenticated, setIsAuthenticated } = useAuth();
   const router = useRouter();
+  const [userEmail, setUserEmail] = useState("");
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const adminEmails = [
+    "tejas@gmail.com",
+    // Add more admin emails as needed
+  ];
 
   useEffect(() => {
     const checkAuth = async () => {
       try {
         const res = await fetch("/api/auth/me", {
           method: "GET",
-          credentials: "include", 
+          credentials: "include",
         });
 
         if (res.ok) {
+          const data = await res.json();
+          setUserEmail(data.email);
           setIsAuthenticated(true);
         }
       } catch (error) {
@@ -29,94 +38,213 @@ const Navbar = () => {
     checkAuth();
   }, [setIsAuthenticated]);
 
-  // Handle logout
   const handleLogout = async () => {
     await fetch("/api/auth/logOut", {
       method: "POST",
       credentials: "include",
     });
-    setIsAuthenticated(false); 
-    router.push("/login"); 
+    setIsAuthenticated(false);
+    setUserEmail("");
+    router.push("/login");
+  };
+
+  const isAdmin = adminEmails.includes(userEmail);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
   };
 
   return (
-    <div className="bg-black sm:h-40 sm:pb-18" data-theme="forest">
-      <div className="flex flex-col sm:flex-row justify-between items-center px-2 sm:px-6 lg:px-8 pb-2 sm:pb-4">
-        {/* Left Logo Section */}
-        <div className="flex items-center">
-          <Slide>
-            <Image
-              src="/pes.png"
-              alt="pes"
-              width={100}
-              height={100}
-              className="h-28 w-auto mr-2 sm:mr-4 hidden sm:block"
-            />
-            <Image
-              src="/aura.png"
-              alt="aura"
-              width={100}
-              height={100}
-              className="h-12 sm:h-28 w-auto hidden sm:block"
-            />
-          </Slide>
-        </div>
-
-        {/* Navigation Links */}
-        <div className="border-6 border-green-600">
-          <div className="flex-grow scale-125 sm:flex-none flex justify-center items-center mt-2 sm:mt-0">
-            <ul className="gap-4 scale-150 sm:rounded-3xl flex flex-wrap sm:flex-nowrap justify-center sm:justify-start">
-              <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                <Link href="/">Home</Link>
-              </li>
-              <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                <Link href="/Articles">Articles</Link>
-              </li>
-
-              {isAuthenticated ? (
-                <>
-                  <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                    <Link href="/Epoch">Epoch</Link>
-                  </li>
-                  <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                    <Link href="/chat">Chat</Link>
-                  </li>
-                  <li>
-                    <button
-                      className="sm:m-2 px-4 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                      onClick={handleLogout}
-                    >
-                      Logout
-                    </button>
-                  </li>
-                </>
-              ) : (
-                <>
-                  <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                    <Link href="/Login">Login</Link>
-                  </li>
-                  <li className="sm:m-2 scale-150 sm:scale-125 hover:font-bold hover:text-green-700 hover:underline hover:scale-125">
-                    <Link href="/Signup">Signup</Link>
-                  </li>
-                </>
-              )}
-            </ul>
+    <nav className="bg-black text-white w-full">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between h-24">
+          {/* Logo Section */}
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2">
+              <Image
+                src="/pes.png"
+                alt="pes"
+                width={80}
+                height={80}
+                className="h-16 w-auto transition-transform duration-300 hover:scale-105"
+              />
+              <Image
+                src="/aura.png"
+                alt="aura"
+                width={80}
+                height={80}
+                className="h-16 w-auto transition-transform duration-300 hover:scale-105"
+              />
+            </div>
           </div>
-        </div>
 
-        <div className="hidden sm:block">
-          <Slide>
+          {/* Mobile Menu Button */}
+          <div className="flex items-center sm:hidden">
+            <button
+              onClick={toggleMenu}
+              className="text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              {isMenuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
+            </button>
+          </div>
+
+          {/* Desktop Navigation */}
+          <div className="hidden sm:flex items-center space-x-8">
+            <Link
+              href="/"
+              className="text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              Home
+            </Link>
+            <Link
+              href="/Articles"
+              className="text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              Articles
+            </Link>
+            <Link
+              href="/Epoch"
+              className="text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              Epoch
+            </Link>
+
+            {/* {isAuthenticated ? (
+              <>
+                <Link
+                  href="/Epoch"
+                  className="text-white hover:text-[#329D36] transition-colors duration-300"
+                >
+                  Epoch
+                </Link>
+                <Link
+                  href="/chat"
+                  className="text-white hover:text-[#329D36] transition-colors duration-300"
+                >
+                  Chat
+                </Link>
+                {isAdmin && (
+                  <Link
+                    href="/details"
+                    className="text-[#329D36] font-semibold hover:text-white transition-colors duration-300"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="bg-[#329D36] text-white px-4 py-2 rounded-md hover:bg-[#267d2a] transition-colors duration-300"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/Login"
+                  className="text-white hover:text-[#329D36] transition-colors duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/Signup"
+                  className="bg-[#329D36] text-white px-4 py-2 rounded-md hover:bg-[#267d2a] transition-colors duration-300"
+                >
+                  Signup
+                </Link>
+              </>
+            )} */}
+          </div>
+
+          {/* Right Logo */}
+          <div className="hidden lg:flex items-center">
             <Image
               src="/aiml.png"
               alt="aiml"
-              width={100}
-              height={100}
-              className="h-48 w-auto mr-2 sm:mr-4"
+              width={80}
+              height={80}
+              className="h-20 w-auto transition-transform duration-300 hover:scale-105"
             />
-          </Slide>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className="sm:hidden bg-black border-t border-[#329D36]">
+          <div className="px-2 pt-2 pb-3 space-y-1">
+            <Link
+              href="/"
+              className="block px-3 py-2 text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              Home
+            </Link>
+            <Link
+              href="/Articles"
+              className="block px-3 py-2 text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              Articles
+            </Link>
+            <Link
+              href="/Epoch"
+              className="block px-3 py-2 text-white hover:text-[#329D36] transition-colors duration-300"
+            >
+              Epoch
+            </Link>
+
+            {/* {isAuthenticated ? (
+              <>
+                <Link
+                  href="/Epoch"
+                  className="block px-3 py-2 text-white hover:text-[#329D36] transition-colors duration-300"
+                >
+                  Epoch
+                </Link>
+                <Link
+                  href="/chat"
+                  className="block px-3 py-2 text-white hover:text-[#329D36] transition-colors duration-300"
+                >
+                  Chat
+                </Link>
+                {isAdmin && (
+                  <Link
+                    href="/details"
+                    className="block px-3 py-2 text-[#329D36] font-semibold hover:text-white transition-colors duration-300"
+                  >
+                    Admin
+                  </Link>
+                )}
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-3 py-2 text-white bg-[#329D36] rounded-md hover:bg-[#267d2a] transition-colors duration-300 mt-4"
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  href="/Login"
+                  className="block px-3 py-2 text-white hover:text-[#329D36] transition-colors duration-300"
+                >
+                  Login
+                </Link>
+                <Link
+                  href="/Signup"
+                  className="block px-3 py-2 text-white bg-[#329D36] rounded-md hover:bg-[#267d2a] transition-colors duration-300 mt-4"
+                >
+                  Signup
+                </Link>
+              </>
+            )} */}
+          </div>
+        </div>
+      )}
+    </nav>
   );
 };
 

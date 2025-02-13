@@ -6,6 +6,7 @@ import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Footer from "@/components/Footer";
 // Image paths
+import Link from "next/link";
 const logo = "/aura1.png";
 const image1 = "/11.jpg";
 const image2 = "/10.jpg";
@@ -36,18 +37,25 @@ function Hero() {
   return (
     <div className="bg-black flex sm:flex-col justify-center items-center pb-12 pt-18 pt-20">
       <div className="flex flex-col sm:flex-row border-2 border-green-700 w-11/12 h-1/2 justify-start items-start shadow-xl shadow-green-700 hover:scale-105">
-        <div className="flex flex-col mt-10 justify-start items-start sm:w-2/5 sm:mt-36 sm:ml-12 sm:mr-24 sm:mb-24">
+        <div className="flex flex-col mt-36 justify-start items-start sm:w-2/5 sm:mt-30 sm:ml-12 sm:mr-24 sm:mb-24">
           <Slide>
             <img src={logo} alt="Logo" className="mb-12 h-18 w-3/4 ml-10" />
           </Slide>
           <Slide>
             <div className="pl-10 text-white text-5xl font-bold md:pl-16">
-              ADAPTING TO THE FUTURE
+              ADAPTING TO THE <b className="text-[#329D36]">FUTURE</b>
+            </div>
+          </Slide>
+          <Slide>
+            <div className="bg-[#329D36] border-4 text-xl rounded-xl p-4 ml-10 mt-10 transition  ease-in-out hover:scale-105 hover:bg-[#206d22] md:ml-36 ">
+              <Link href="/Epoch">
+              Register for Epoch 2.0
+              </Link>
             </div>
           </Slide>
         </div>
 
-        <div className="flex flex-col w-4/5 ml-10 mb-10 mt-10 sm:ml-12 sm:mt-12 sm:w-2/5 bg-black" id="post">
+        <div className="flex flex-col w-4/5 ml-10 mb-10 mt-10 pt-10 sm:ml-12 sm:mt-12 sm:w-2/5 bg-black" id="post">
           <Slide>
             <Slider {...settings}>
               <div>

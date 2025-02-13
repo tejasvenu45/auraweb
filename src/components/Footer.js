@@ -19,11 +19,12 @@ const Footer = () => {
                     </div>
                     <div className="flex flex-col">
                         <h2 className="text-xl font-bold text-green-400 mt-3">
-                            AURA Club - PES University
+                            AURA - Adapting to the Future
                         </h2>
                         <h2 className="text-xl font-bold text-green-400 mt-3">
-                            Dept of AIML
+                            Dept of AIML, PES University
                         </h2>
+                       
 
                     </div>
                     <p className=" text-gray-400 max-w-md mt-2 leading-relaxed">

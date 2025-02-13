@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/context/AuthContext";
 import withAuth from "@/hoc/withAuth";
 import { useRouter } from "next/navigation";
+import { MessageCircle, ChevronDown, ChevronUp, Send } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 
 const Chat = () => {
   const [activeIndex, setActiveIndex] = useState(null);
@@ -17,6 +19,8 @@ const Chat = () => {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
+    if (!question.trim()) return;
+    
     try {
       const res = await fetch(`/api/chat/askQuestion`, {
         method: "POST",
@@ -26,6 +30,8 @@ const Chat = () => {
       });
 
       if (!res.ok) throw new Error("Error in fetch!");
+      setQuestion(""); // Clear input after successful submission
+      router.refresh();
     } catch (error) {
       console.error(error);
     }
@@ -58,14 +64,17 @@ const Chat = () => {
 
   const handleAnswer = async (evt, id) => {
     evt.preventDefault();
+    if (!answer.trim()) return;
+
     try {
       const res = await fetch(`/api/chat/answer`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
-        body: JSON.stringify({ answer, id }),  
+        body: JSON.stringify({ answer, id }),
       });
       if (!res.ok) throw new Error("Error sending answer!");
+      setAnswer(""); // Clear answer field after submission
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -73,74 +82,114 @@ const Chat = () => {
   };
 
   return (
-    <div className="flex flex-wrap bg-black text-white">
-      <div className="max-w-4xl mx-auto p-6 w-full sm:w-1/2">
-        <h1 className="text-4xl font-bold mb-8 text-green-700">Public Questions</h1>
-        {faqData.length > 0 ? (
-          faqData.map((item, index) => (
-            <div key={item._id} className="mb-4">
-              <div
-                className="cursor-pointer p-4 bg-purple-800 text-white rounded"
-                onClick={() => toggleAnswer(index)}
-              >
-                <h1 className="font-black text-3xl">{item.question}</h1>
-              </div>
-              {activeIndex === index && (
-                <div className="mt-2 text-3xl p-4 bg-orange-400 text-black font-bold rounded">
-                  {Array.isArray(item.answer) ? (
-                    item.answer.map((ans, idx) => (
-                      <div key={idx} className="mb-2">{ans.answer}</div>
-                    ))
-                  ) : (
-                    <div>{item.answer}</div> 
-                  )}
-                  {allowedEmails.includes(user?.email) && (
-                    <form onSubmit={(e) => handleAnswer(e, item._id)} className="mt-4">
-                    <textarea
-                      className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-700"
-                      rows="4"
-                      placeholder="Type your answer here..."
-                      value={answer}
-                      onChange={(e) => setAnswer(e.target.value)}
-                    ></textarea>
-                    <button
-                      type="submit"
-                      className="mt-4 px-6 py-2 bg-orange-600 text-white rounded hover:bg-orange-700"
-                    >
-                      Answer
-                    </button>
-                  </form>
-                  )}
-                </div>
+    <div className="min-h-screen bg-black text-white p-4 md:p-8">
+      <div className="max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* FAQ Section */}
+          <div className="space-y-6">
+            <div className="flex items-center space-x-3 mb-8">
+              <MessageCircle className="w-8 h-8 text-[#329D36]" />
+              <h1 className="text-3xl font-bold text-[#329D36]">Community Questions</h1>
+            </div>
+
+            <div className="space-y-4">
+              {faqData.length > 0 ? (
+                faqData.map((item, index) => (
+                  <Card 
+                    key={item._id} 
+                    className="bg-black border border-[#329D36] hover:border-white transition-colors duration-300"
+                  >
+                    <CardContent className="p-0">
+                      <div
+                        className="cursor-pointer p-4 flex justify-between items-center hover:bg-[#329D36]/10 transition-colors duration-300"
+                        onClick={() => toggleAnswer(index)}
+                      >
+                        <h2 className="text-xl font-semibold">{item.question}</h2>
+                        {activeIndex === index ? (
+                          <ChevronUp className="w-5 h-5 text-[#329D36]" />
+                        ) : (
+                          <ChevronDown className="w-5 h-5 text-[#329D36]" />
+                        )}
+                      </div>
+
+                      {activeIndex === index && (
+                        <div className="p-4 border-t border-[#329D36]/30">
+                          <div className="space-y-4">
+                            {Array.isArray(item.answer) ? (
+                              item.answer.map((ans, idx) => (
+                                <div key={idx} className="text-gray-300">{ans.answer}</div>
+                              ))
+                            ) : (
+                              <div className="text-gray-300">{item.answer}</div>
+                            )}
+                          </div>
+
+                          {allowedEmails.includes(user?.email) && (
+                            <form onSubmit={(e) => handleAnswer(e, item._id)} className="mt-6">
+                              <div className="relative">
+                                <textarea
+                                  className="w-full p-4 bg-black border border-[#329D36] rounded-lg focus:outline-none focus:border-white transition-colors duration-300 text-white resize-none"
+                                  rows="4"
+                                  placeholder="Add your answer..."
+                                  value={answer}
+                                  onChange={(e) => setAnswer(e.target.value)}
+                                />
+                                <button
+                                  type="submit"
+                                  className="absolute bottom-4 right-4 text-[#329D36] hover:text-white transition-colors duration-300"
+                                >
+                                  <Send className="w-5 h-5" />
+                                </button>
+                              </div>
+                            </form>
+                          )}
+                        </div>
+                      )}
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
+                <p className="text-gray-400 text-center py-8">No questions have been asked yet. Be the first!</p>
               )}
             </div>
-          ))
-        ) : (
-          <></>
-        )}
-      </div>
-      <div className="w-full sm:w-1/2 p-6 flex flex-col items-center">
-        <h2 className="text-2xl font-bold mb-4">Ask a Question</h2>
-        <p className="text-lg mb-6">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vehicula magna at diam convallis.
-        </p>
-        {isAuthenticated ? (
-          <form method="post" onSubmit={handleSubmit} className="w-full">
-            <textarea
-              className="w-full p-4 border-2 border-gray-300 rounded-lg focus:outline-none focus:border-green-700"
-              rows="4"
-              placeholder="Type your question here..."
-              name="question"
-              id="question"
-              onChange={(e) => setQuestion(e.target.value)}
-            ></textarea>
-            <button type="submit" className="mt-4 px-6 py-2 bg-green-700 text-white rounded hover:bg-green-800">
-              Submit
-            </button>
-          </form>
-        ) : (
-          <p className="text-red-500">You must be logged in to ask a question.</p>
-        )}
+          </div>
+
+          {/* Ask Question Section */}
+          <div className="lg:pl-8">
+            <Card className="bg-black border border-[#329D36] p-6">
+              <div className="space-y-6">
+                <h2 className="text-2xl font-bold text-[#329D36]">Ask a Question</h2>
+                <p className="text-gray-300">
+                  Have a question? Feel free to ask! Our community members will help answer it.
+                </p>
+
+                {isAuthenticated ? (
+                  <form onSubmit={handleSubmit} className="space-y-4">
+                    <div className="relative">
+                      <textarea
+                        className="w-full p-4 bg-black border border-[#329D36] rounded-lg focus:outline-none focus:border-white transition-colors duration-300 text-white resize-none"
+                        rows="6"
+                        placeholder="Type your question here..."
+                        value={question}
+                        onChange={(e) => setQuestion(e.target.value)}
+                      />
+                      <button
+                        type="submit"
+                        className="absolute bottom-4 right-4 bg-[#329D36] text-white p-2 rounded-full hover:bg-[#267d2a] transition-colors duration-300"
+                      >
+                        <Send className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </form>
+                ) : (
+                  <div className="bg-red-500/10 border border-red-500 rounded-lg p-4">
+                    <p className="text-red-500">Please log in to ask questions.</p>
+                  </div>
+                )}
+              </div>
+            </Card>
+          </div>
+        </div>
       </div>
     </div>
   );

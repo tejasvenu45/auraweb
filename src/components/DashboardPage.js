@@ -2,25 +2,25 @@ import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Clock, Database, Brain, ArrowRight } from "lucide-react";
-import withAuth from "@/hoc/withAuth";
+// import withAuth from "@/hoc/withAuth";
 import {
     Accordion,
     AccordionContent,
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-const img1 = "/epoch.jpg"
+const img1 = "/epoch.png"
 const DashboardPage = () => {
     return (
         <div className="min-h-screen bg-[#201723] text-white">
             <div className="max-w-4xl mx-auto px-4 py-12">
                 {/* Hero Section */}
                 <div className="flex flex-col items-center justify-center w-full mb-8">
-                    <div className="h-36 w-40 mb-6">
+                    <div className="h-40 w-96 mb-6">
                         <img
                             src={img1}
                             alt="AURA Logo"
-                            className="h-full w-full object-contain"
+                            className="h-36 w-auto"
                         />
                     </div>
 
@@ -141,4 +141,4 @@ const DashboardPage = () => {
     );
 };
 
-export default withAuth(DashboardPage);
+export default DashboardPage;
