@@ -33,6 +33,7 @@ const DashboardPage = () => {
                             <div className="flex items-center gap-2">
                                 <Clock className="w-6 h-6" />
                                 <span className="font-semibold">24 Hours</span>
+                                <span className="font-semibold">(7th - 8th March)</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <Database className="w-6 h-6" />
@@ -76,7 +77,7 @@ const DashboardPage = () => {
                         <CardContent className="p-6 text-center">
                             <Clock className="w-12 h-12 text-[#329D36] mx-auto mb-4" />
                             <h3 className="text-lg font-semibold text-[#329D36] mb-2">Duration</h3>
-                            <p className="text-gray-300">10-hour intensive hackathon experience</p>
+                            <p className="text-gray-300">24-hour intensive hackathon experience</p>
                         </CardContent>
                     </Card>
 
