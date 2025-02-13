@@ -115,7 +115,7 @@ const DashboardPage = () => {
                                         Who can participate?
                                     </AccordionTrigger>
                                     <AccordionContent className="text-gray-300">
-                                        All undergraduate students from CSE & CSE-AIML branch are eligible to participate. Each team member must be currently enrolled.
+                                        All undergraduate students from all Departments are eligible to participate. Each team member must be currently enrolled.
                                     </AccordionContent>
                                 </AccordionItem>
 
